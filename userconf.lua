@@ -1,11 +1,5 @@
 local webview = require("webview")
 
--- Set a default zoom level on dashboards that are too tiny
-function webview.init_funcs.set_default_zoom(view)
-    view.full_content_zoom = true -- optional 
-    view.zoom_level = 1.2 -- 120%, play with this figure
-end
-
 -- Define username, password, delay, and refresh from environment variables
 local username = os.getenv("HA_USERNAME")
 local password = os.getenv("HA_PASSWORD")
@@ -37,6 +31,9 @@ window.add_signal("init", function(w)
 end)
 
 webview.add_signal("init", function(view)
+    -- Set a default zoom level on dashboards that are too tiny
+    view.full_content_zoom = true -- optional 
+    view.zoom_level = 1.2 -- 120%, play with this figure
     -- Auto-login and refresh on every page load
     view:add_signal("load-status", function(v, status)
         if status == "finished" then
