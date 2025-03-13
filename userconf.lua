@@ -1,4 +1,6 @@
 local webview = require("webview")
+local settings = require "settings"
+settings.webview.zoom_level = 200
 
 -- Define username, password, delay, and refresh from environment variables
 local username = os.getenv("HA_USERNAME")
