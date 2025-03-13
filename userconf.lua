@@ -31,9 +31,6 @@ window.add_signal("init", function(w)
 end)
 
 webview.add_signal("init", function(view)
-    -- Set a default zoom level on dashboards that are too tiny
-    view.full_content_zoom = true -- optional 
-    view.zoom_level = 1.2 -- 120%, play with this figure
     -- Auto-login and refresh on every page load
     view:add_signal("load-status", function(v, status)
         if status == "finished" then
@@ -62,7 +59,7 @@ webview.add_signal("init", function(view)
             if v.uri:match("^" .. start_url .. "/lovelace/0") then
                 v:eval_js([[
                     setTimeout(function() {
-                        location.href = "]] .. start_url .. [[/livingroom-panel/0";
+                        location.href = "]] .. start_url .. [[/livingroom-panel/0?kiosk";
                     }, ]] .. delay_ms .. [[);
                 ]], { source = "auto_navigate.js" })
             end
@@ -74,11 +71,6 @@ webview.add_signal("init", function(view)
                     if (window.refreshInterval) clearInterval(window.refreshInterval);
                     window.refreshInterval = setInterval(function() {
                         location.reload();
-                        // remove the sidebar which isn't useful for display only kiosk
-                        var sidebar = document.querySelector("ha-sidebar");
-                        if (sidebar) {
-                            sidebar.style.display = "none";
-                        }
                     }, ]] .. refresh_ms .. [[);
                 ]], { source = "auto_refresh.js" })
             end
