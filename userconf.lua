@@ -55,6 +55,14 @@ webview.add_signal("init", function(view)
                     }, ]] .. delay_ms .. [[);
                 ]], { source = "auto_login.js" })
             end
+            -- Navigate to the actual dashboard designed for the kiosk
+            if v.uri:match("^" .. start_url .. "/lovelace/0") then
+                v:eval_js([[
+                    setTimeout(function() {
+                        location.href = "]] .. start_url .. [[/livingroom-panel/0";
+                    }, ]] .. delay_ms .. [[);
+                ]], { source = "auto_navigate.js" })
+            end
 
             -- Periodic refresh of current page if refresh_ms > 0
             if refresh_ms > 0 then
